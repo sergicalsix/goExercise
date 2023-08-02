@@ -84,6 +84,33 @@ type Greeter interface {
 	greet()
 }
 
+// 5-1
+func devideNumPanic(a, b int) int {
+
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("Error:", err)
+		}
+
+	}()
+
+	if b == 0 {
+		panic("division by zero")
+	} else {
+		return (a / b)
+	}
+}
+
+// 5-2
+func devideNum(a, b int) int {
+	if b == 0 {
+		fmt.Println("Error: division by zero")
+		return 0
+	} else {
+		return a / b
+	}
+}
+
 func main() {
 
 	printPart(1)
@@ -134,9 +161,23 @@ func main() {
 	p := new(Person)
 	p.Name = "shibuya"
 	p.Sex = "man"
-
-	p.greet()
 	var g Greeter = &Person{Name: "shobuya", Sex: "man"}
+
+	// answer
+	p.greet()
 	g.greet()
+
+	printPart(5)
+
+	fmt.Println("5/2")
+	fmt.Println(devideNumPanic(5, 2))
+	fmt.Println("5/0")
+	fmt.Println(devideNumPanic(5, 0))
+	fmt.Println(devideNum(5, 2))
+	fmt.Println("5/2")
+	fmt.Println(devideNum(5, 0))
+	fmt.Println("5/0")
+
+	printPart(6)
 
 }
