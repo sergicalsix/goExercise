@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"myproject/mylib"
 	"strconv"
@@ -85,11 +86,11 @@ type Greeter interface {
 }
 
 // 5-1
-func devideNumPanic(a, b int) int {
+func divideNumPanic(a, b int) int {
 
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println("Error:", err)
+			fmt.Println("error:", err)
 		}
 
 	}()
@@ -102,12 +103,11 @@ func devideNumPanic(a, b int) int {
 }
 
 // 5-2
-func devideNum(a, b int) int {
+func divideNum(a, b int) (int, error) {
 	if b == 0 {
-		fmt.Println("Error: division by zero")
-		return 0
+		return 0, errors.New("error: division by zero")
 	} else {
-		return a / b
+		return a / b, nil
 	}
 }
 
@@ -170,14 +170,25 @@ func main() {
 	printPart(5)
 
 	fmt.Println("5/2")
-	fmt.Println(devideNumPanic(5, 2))
-	fmt.Println("5/0")
-	fmt.Println(devideNumPanic(5, 0))
-	fmt.Println(devideNum(5, 2))
-	fmt.Println("5/2")
-	fmt.Println(devideNum(5, 0))
-	fmt.Println("5/0")
+	fmt.Println(divideNumPanic(5, 2))
 
-	printPart(6)
+	fmt.Println("5/0")
+	fmt.Println(divideNumPanic(5, 0))
+
+	fmt.Println("5/2")
+	result3, err3 := divideNum(5, 2)
+	if err3 != nil {
+		fmt.Println(err3)
+	} else {
+		fmt.Println(result3)
+	}
+
+	fmt.Println("5/0")
+	result4, err4 := divideNum(5, 0)
+	if err4 != nil {
+		fmt.Println(err4)
+	} else {
+		fmt.Println(result4)
+	}
 
 }
